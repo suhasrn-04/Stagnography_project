@@ -13,7 +13,7 @@ unsigned int get_image_size_for_bmp(FILE *fptr_image)
     unsigned int width, height;
     // Seek to 18th byte
     fseek(fptr_image, 18, SEEK_SET);
-
+l
     // Read the width (an int)
     fread(&width, sizeof(int), 1, fptr_image);
     printf("width = %u\n", width);
@@ -63,6 +63,63 @@ Status open_files(EncodeInfo *encInfo)
     	fprintf(stderr, "ERROR: Unable to open file %s\n", encInfo->output_image_fname);
 
     	return failure;
+    }
+
+    return success;
+}
+
+Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
+{
+    // Check source image exten 
+    char *extn = strrchr(argv[2], '.');
+    if (extn == NULL || strcmp(extn, ".bmp") != 0)
+    {
+        printf("Error -> Source image must be a .bmp file\n");
+        return failure;
+    }
+
+    encInfo->src_image_fname = argv[2];
+
+    // Check secret file exten
+    extn = strrchr(argv[3], '.');
+
+    if (extn == NULL)
+    {
+        printf("Error -> Secret file has no extension\n");
+        return failure;
+    }
+
+    if (strcmp(extn, ".txt") != 0 &&strcmp(extn, ".c") != 0 && strcmp(extn, ".sh")!= 0 &&
+        strcmp(extn, ".py") != 0 && strcmp(extn, ".c++")!= 0 &&strcmp(extn, ".cpp")!= 0)
+    {
+        printf("Error -> Invalid secret file extension\n");
+        return failure;
+    }
+
+    // Store secret filename and exten
+    encInfo->secret_fname = argv[3];
+
+    strcpy(encInfo->secret_extn, extn);
+    encInfo->secret_extn_size = strlen(extn);
+
+    // Store output image filename 
+
+    if (argv[4] != NULL )
+    {
+        extn = strrchr(argv[4], '.');
+        if(strcmp(extn,".bmp")==0)
+        {
+        encInfo->output_image_fname = argv[4];
+        }
+        else
+        {
+            printf("Error -> Invalid extension\n");
+            return failure;
+        }
+    }
+    else
+    {
+        encInfo->output_image_fname = "stego.bmp";
     }
 
     return success;

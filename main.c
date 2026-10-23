@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
 
     if( argc == 1 )
     {
-	// print -> Error + usage msg
+	// print  -> Error + usage msg
+    printf("Invalid input it should have more than one command");
 	return 0;
     }
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
 	if( argc < 4 || argc > 5 )
 	{
 	    // print -> Error + usage msg
+        printf("Invalid input !! input should have more 4 or 5")
 	    return 0;
 	}
 

@@ -66,25 +66,12 @@ Status copy_remaining_img_data(EncodeInfo * encInfo);
 
 #endif
 
-Opr_type check_operation(char *option)
-{
-    if(option == 'e')
-    {
-        return &encode ;
-    }
-    else if(option == 'd')
-    {
-        return &decode ;
-    }
-    else
-    {
-        return &unsupported;
-    }
-}
+
 
 
 Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
 {
+    
     
 
 }
