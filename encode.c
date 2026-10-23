@@ -68,6 +68,23 @@ Status open_files(EncodeInfo *encInfo)
     return success;
 }
 
+
+Opr_type check_operation(char *option)
+{
+    if(strcmp(option,"-e")==0)
+    {
+        return encode;
+    }
+    else if(strcmp(option,"-d")==0)
+    {
+        return decode;
+    }
+    else
+    {
+        return unsupported;
+    }
+}
+
 Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
 {
     // Check source image exten 
@@ -79,6 +96,7 @@ Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
     }
 
     encInfo->src_image_fname = argv[2];
+    //validate_encode_args() checks and stores the filename, while open_files() actually opens the file. fopen to read
 
     // Check secret file exten
     extn = strrchr(argv[3], '.');
@@ -121,6 +139,19 @@ Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
     {
         encInfo->output_image_fname = "stego.bmp";
     }
+
+    return success;
+}
+Status do_encoding(char *argv[], EncodeInfo *encInfo)
+{
+    if (validate_encode_args(argv, encInfo) == failure)
+        return failure;
+
+    if (open_files(encInfo) == failure)
+        return failure;
+
+    if (check_capacity(encInfo) == failure)
+        return failure;
 
     return success;
 }

@@ -13,9 +13,9 @@ typedef enum
 
 typedef enum
 {
-    unsupported,
-    encode,
-    decode
+    unsupported, //0
+    encode,  //1
+    decode  //2
 } Opr_type;
 
 #endif
