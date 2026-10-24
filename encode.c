@@ -156,3 +156,37 @@ Status do_encoding(char *argv[], EncodeInfo *encInfo)
     return success;
 }
 
+
+Status check_capacity(EncodeInfo *encInfo)
+{
+    unsigned int image_size;
+    unsigned int encoding_size;
+    encInfo->secret_file_size = get_file_size(encInfo->secret_fptr);
+    image_size = get_image_size_for_bmp(encInfo->src_image_fptr);
+    encoding_size =  (strlen(MAGIC_STRING) + 4 + strlen(encInfo->secret_extn) + encInfo->secret_file_size) * 8;
+
+    if (image_size >= encoding_size)
+    {
+        return success;
+    }
+    else
+    {
+        printf("Error: Image does not have enough capacity\n");
+        return failure;
+    }
+}
+
+Status encode_1byte_to_lsb(char data, char *buffer_8)
+{
+        for(int i=7;i>=0;i--)
+        {
+                int bit = data & (1 << i);
+                bit = bit >> i;
+                int mask = (1<<0);
+                buffer_8[7-i] = buffer_8[7-i] & ~mask;
+                buffer_8[7-i] = buffer_8[7-i] | bit;
+        }
+
+        return success;
+    }
+

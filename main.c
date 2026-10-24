@@ -23,6 +23,14 @@ int main(int argc, char *argv[])
         printf("Invalid input !! input should have more 4 or 5")
 	    return 0;
 	}
+    if(do_encoding(argv, &encodeInfo) == success)
+    {
+        printf("Encoding completed successfully\n");
+    }
+    else
+    {
+        printf("Encoding failed\n");
+    }
 
     }
     else if( opr == decode )
@@ -30,12 +38,14 @@ int main(int argc, char *argv[])
 	if( argc < 3 || argc > 4 )	
 	{
 	    // print -> Error + usage msg
+        printf("Error the decode arguments should be 3 or 4\n");
 	    return 0;
 	}
     }
     else
     {
 	// Print -> Error + usage msg
+    printf("Invalid arguments");
     }
     return 0;
 }
