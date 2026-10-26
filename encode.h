@@ -1,6 +1,9 @@
 #ifndef ENCODE_H
 #define ENCODE_H
 
+#include <stdio.h>
+#include "common.h"
+
 typedef struct EncodeInfo
 {
     /* Source Image info */
@@ -26,7 +29,6 @@ Opr_type check_operation(char *option);
 
 /* Read and validate Encode args from argv */
 Status validate_encode_args(char *argv[], EncodeInfo *encInfo);
-
 
 /* Perform the encoding */
 Status do_encoding(char *argv[], EncodeInfo *encInfo);
@@ -65,13 +67,3 @@ Status encode_4byte_to_lsb(int data, char *buffer_32);
 Status copy_remaining_img_data(EncodeInfo * encInfo);
 
 #endif
-
-
-
-
-Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
-{
-    
-    
-
-}
