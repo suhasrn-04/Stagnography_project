@@ -6,7 +6,7 @@
 
 /* Status will be used in fn. return type */
 typedef enum
-{
+{- 
     failure,
     success
 } Status;

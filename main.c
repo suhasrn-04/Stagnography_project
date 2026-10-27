@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	if( argc < 4 || argc > 5 )
 	{
 	    // print -> Error + usage msg
-        printf("Error -> The Encoding argments are underbounded or overbounded\n");
+        printf("Error -> The Encoding argments are underbounded  or overbounded\n");
 	    return 0;
 	}
     if (do_encoding(argv, &encodeInfo) == success)

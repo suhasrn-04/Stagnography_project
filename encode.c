@@ -252,8 +252,8 @@ Status encode_1byte_to_lsb(char data, char *buffer_8)
 
 Status copy_bmp_header(EncodeInfo *encInfo)
 {
-    printf("Copying .bmp header......\n");
-    char buffer[54];
+    printf("Copying .bmp header......\n");  // taking the 54 bytes and copying to output file
+    char buffer[54];             
     fread(buffer, 54 , 1, encInfo->src_image_fptr);
     fwrite(buffer, 54 , 1 , encInfo->output_image_fptr);
     printf("copying sucess...\n");
@@ -262,8 +262,8 @@ Status copy_bmp_header(EncodeInfo *encInfo)
 
 Status encode_magic_string(const char *magic_string, EncodeInfo *encInfo)
 {
-    printf("The encoding started for magic string '#*'......\n");
-    char img_byte[8];
+    printf("The encoding started for magic string '#*'......\n"); 
+    char img_byte[8];   
     for(int i=0;i<(strlen(magic_string));i++)
     {
         fread(img_byte, 8, 1, encInfo->src_image_fptr);
@@ -277,7 +277,7 @@ Status encode_magic_string(const char *magic_string, EncodeInfo *encInfo)
 
 Status encode_secret_file_extn(EncodeInfo *encInfo)
 {
-    // size 
+    // size of extn is 4 bytes .txt so 4*8  1 byte of data 8bytes *size ofinteger 4
     printf("The encoding started for secret file extension size......\n");
     char img_byte[32];
     fread(img_byte, 32, 1, encInfo->src_image_fptr);
@@ -297,7 +297,7 @@ Status encode_secret_file_extn(EncodeInfo *encInfo)
     return success;
 }
 
-Status encode_secret_file_data(EncodeInfo *encInfo)
+Status encode_secret_file_data(EncodeInfo *encInfo)  
 {
     printf("The encoding started for secret file data size......\n");
     char img_byte[32],ch;
@@ -306,7 +306,7 @@ Status encode_secret_file_data(EncodeInfo *encInfo)
     fwrite(img_byte, 32, 1, encInfo->output_image_fptr);
     printf("Encoding secret file extension data size success\n");
     // file
-    char img_byte8[8];
+    char img_byte8[8];  //this .txt . will be having ascii value it will be placed in image file after 54bytes
     printf("The encoding started for file data ......\n");
     for(int i=0;i<encInfo->secret_file_size;i++)
     {
