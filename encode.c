@@ -137,13 +137,13 @@ Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
     // Store secret filename and exten
     encInfo->secret_fname = argv[3];
 
-    strcpy(encInfo->secret_extn, extn);
-    encInfo->secret_extn_size = strlen(extn);
+    strcpy(encInfo->secret_extn, extn);   //. T X T
+    encInfo->secret_extn_size = strlen(extn);//to store the .txt size
 
     // Store output image filename 
 
     // Store output image filename
-if (argv[4] != NULL)
+if (argv[4] != NULL) //op.bmp file is present, last array element of argv will be NULL
 {
     extn = strrchr(argv[4], '.');
 

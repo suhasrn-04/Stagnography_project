@@ -3,7 +3,7 @@
 //#include "decode.h"
 
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[]) 
 {
     EncodeInfo encodeInfo;
 
@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 
     int opr = check_operation(argv[1]);
 
-    if( opr == encode )
+    if( opr == encode ) 
     {
-	if( argc < 4 || argc > 5 )
+	if( argc < 4 || argc > 5 ) //4 5
 	{
 	    // print -> Error + usage msg
         printf("Error -> The Encoding argments are underbounded  or overbounded\n");
