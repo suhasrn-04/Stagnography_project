@@ -5,10 +5,10 @@
 //#include "types.h"
 #include "common.h"
 
-/* Get image size
- * Input: Image file ptr
- * Output: width * height * bytes per pixel (3 in our case)
- * Description: In BMP Image, width is stored in offset 18,
+/* Get image size size
+ * Input: Image file ptr ecd
+ * Output: width * height * bytes per pixel (3 in our case) ced
+ * Description: In BMP Image, width is stored in offset 18, fwecsd
  * and height after that. size is 4 bytes
  */
 unsigned int get_image_size_for_bmp(FILE *fptr_image)
@@ -137,7 +137,7 @@ Status validate_encode_args(char *argv[], EncodeInfo *encInfo)
     // Store secret filename and exten
     encInfo->secret_fname = argv[3];
 
-    strcpy(encInfo->secret_extn, extn);   //. T X T
+    strcpy(encInfo->secret_extn, extn);   //.txt
     encInfo->secret_extn_size = strlen(extn);//to store the .txt size
 
     // Store output image filename 
@@ -236,7 +236,7 @@ Status encode_1byte_to_lsb(char data, char *buffer_8)
 
         return success;
     }
-    Status encode_4byte_to_lsb(int data, char *buffer_32)    // same like # this is for *
+    Status encode_4byte_to_lsb(int data, char *buffer_32)    // store size of int
 {
     for(int i=31;i>=0;i--)
         {
@@ -332,7 +332,7 @@ Status copy_remaining_img_data(EncodeInfo *encInfo)
         fputc(ch, encInfo->output_image_fptr);
     }
     printf("%ld\n", ftell(encInfo->src_image_fptr));
-printf("%ld\n", ftell(encInfo->output_image_fptr));
+    printf("%ld\n", ftell(encInfo->output_image_fptr));
     printf("Successfully copied the remaining data\n");
     return success;
 }

@@ -8,7 +8,7 @@ typedef struct EncodeInfo
 {
     /* Source Image info */
     char *src_image_fname;  // => Store the Src_Image_fname
-    FILE *src_image_fptr;   // => File pointer for src_image
+    FILE *src_image_fptr;   // => File pointer for src_image // to travers  bit by bit of the file
 
     /* Secret File Info */
     char *secret_fname;    // => Store the Secret_fname
