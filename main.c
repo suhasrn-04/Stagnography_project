@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "encode.h"
-//#include "decode.h"
+#include "decode.h"
 
 
 int main(int argc, char *argv[]) 
 {
     EncodeInfo encodeInfo;
+    DecodeInfo decodeInfo;
 
     if( argc == 1 )
     {
@@ -41,6 +42,15 @@ int main(int argc, char *argv[])
     printf("Error -> The Decoding argments are underbounded or overbounded\n");
     return 0;
 	}
+    else
+    {
+        if(do_decoding(argv, &decodeInfo) == success)
+        printf("message decoded\n");
+    else
+    {
+        printf("failure");
+    }
+    }
     }
     else
     {

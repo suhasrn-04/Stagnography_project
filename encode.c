@@ -201,15 +201,15 @@ Status do_encoding(char *argv[], EncodeInfo *encInfo)
 }
 
 
-Status check_capacity(EncodeInfo *encInfo)
+Status check_capacity(EncodeInfo *encInfo) //checking if image file size is greater than (secret file size+14)*8
 {
     printf("Checking cpacity to store the secret file in .bmp file......\n");
     unsigned int image_size;
-    unsigned int encoding_size;
-    encInfo->secret_file_size = get_file_size(encInfo->secret_fptr);
-    image_size = get_image_size_for_bmp(encInfo->src_image_fptr);
+    unsigned int encoding_size;//size must be (28+14)*8=224 , how many bytes of srct data we want to encode into src image
+    encInfo->secret_file_size = get_file_size(encInfo->secret_fptr); // 28
+    image_size = get_image_size_for_bmp(encInfo->src_image_fptr); //width *height*3 // 3 is RGB
     encoding_size = (strlen(MAGIC_STRING) + 4 + encInfo->secret_extn_size + 4 +
-                 encInfo->secret_file_size) * 8;
+                 encInfo->secret_file_size) * 8; //2+4+4+4+secret file size
 
     if (image_size >= encoding_size)
     {
@@ -225,37 +225,35 @@ Status check_capacity(EncodeInfo *encInfo)
 
 Status encode_1byte_to_lsb(char data, char *buffer_8)
 {
-        for(int i=7;i>=0;i--)  // # passward will read from last in system so i--  //after 54th bit the changes happens that we are getting from this logic 
-        {
-                int bit = data & (1 << i);  //getting bit   data is # value
-                bit = bit >> i;  //moving bit to lsb
-                int mask = (1<<0);// mask by 1
-                buffer_8[7-i] = buffer_8[7-i] & ~mask; //clearing  [lsb] bit
-                buffer_8[7-i] = buffer_8[7-i] | bit;  //replacing [lsb] bit
-        }
-
-        return success;
+    for(int i=7;i>=0;i--)  // # passward will read from last in system so i--  //after 54th bit the changes happens that we are getting from this logic 
+    {
+        int bit = data & (1 << i);  //getting bit   data is # value
+        bit = bit >> i;  //moving bit to lsb
+        int mask = (1<<0);// mask by 1
+        buffer_8[7-i] = buffer_8[7-i] & ~mask; //clearing  [lsb] bit
+        buffer_8[7-i] = buffer_8[7-i] | bit;  //replacing [lsb] bit
     }
-    Status encode_4byte_to_lsb(int data, char *buffer_32)    // store size of int
+    return success;
+}
+Status encode_4byte_to_lsb(int data, char *buffer_32)    // store size of int
 {
     for(int i=31;i>=0;i--)
-        {
-                int bit = data & (1 << i);
-                bit = bit >> i;
-                int mask = (1<<0);
-                buffer_32[31-i] = buffer_32[31-i] & ~mask;
-                buffer_32[31-i] = buffer_32[31-i] | bit;
-        }
-        return success;
-
+    {
+        int bit = data & (1 << i);
+        bit = bit >> i;
+        int mask = (1<<0);
+        buffer_32[31-i] = buffer_32[31-i] & ~mask;
+        buffer_32[31-i] = buffer_32[31-i] | bit;
+    }
+    return success;
 }
 
 Status copy_bmp_header(EncodeInfo *encInfo)
 {
     printf("Copying .bmp header......\n");  // taking the 54 bytes and copying to output file
     char buffer[54];             
-    fread(buffer, 54 , 1, encInfo->src_image_fptr);
-    fwrite(buffer, 54 , 1 , encInfo->output_image_fptr);
+    fread(buffer, 54 , 1, encInfo->src_image_fptr);//copy file  
+    fwrite(buffer, 54 , 1 , encInfo->output_image_fptr); //pastring to output
     printf("copying sucess...\n");
     return success;
 }
@@ -266,9 +264,9 @@ Status encode_magic_string(const char *magic_string, EncodeInfo *encInfo)
     char img_byte[8];   
     for(int i=0;i<(strlen(magic_string));i++)
     {
-        fread(img_byte, 8, 1, encInfo->src_image_fptr);
-        encode_1byte_to_lsb(magic_string[i], img_byte);
-        fwrite(img_byte, 8 , 1 , encInfo->output_image_fptr);
+        fread(img_byte, 8, 1, encInfo->src_image_fptr); // take 8 bytes from beaut.bmp(src file ptr) and stor into img_byte
+        encode_1byte_to_lsb(magic_string[i], img_byte); // encode 1 byte of # or the 1st magic character into 8 bytes of img_byte
+        fwrite(img_byte, 8 , 1 , encInfo->output_image_fptr); // put the 8 byte of encoded data to our output file steg.bmp
 
     }
     printf("Encoding magic string success\n");
